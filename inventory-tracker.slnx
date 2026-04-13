@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="inventory-tracker.client/inventory-tracker.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="inventory-tracker.Server.Tests/inventory-tracker.Server.Tests.csproj" />
+  <Project Path="inventory-tracker.Server/inventory-tracker.Server.csproj" />
+</Solution>

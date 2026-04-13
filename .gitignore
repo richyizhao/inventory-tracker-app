@@ -1,0 +1,18 @@
+# Terraform local working directory and state
+/infrastructure/.terraform/
+/infrastructure/*.tfstate
+/infrastructure/*.tfstate.*
+/infrastructure/crash.log
+/infrastructure/crash.*.log
+/infrastructure/backend.hcl
+/infrastructure/.terraformrc
+
+# Local build and verification artifacts
+/.tmp-server-build/
+/.tmp-server-publish/
+/.dotnet-cli-home/
+/inventory-tracker.client/.npm-cache/
+
+# .NET build output
+**/bin/
+**/obj/

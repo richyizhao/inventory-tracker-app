@@ -1,0 +1,109 @@
+name: Deploy Application
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "inventory-tracker.Server/**"
+      - "inventory-tracker.client/**"
+      - ".github/workflows/deploy.yml"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    env:
+      ConnectionStrings__DefaultConnection: Host=127.0.0.1;Port=5432;Database=inventory_management_ci;Username=postgres;Password=postgres
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: inventory_management_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d inventory_management_ci"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: inventory-tracker.client/package-lock.json
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: inventory-tracker.client
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+        working-directory: inventory-tracker.client
+
+      - name: Restore backend
+        run: dotnet restore inventory-tracker.Server/inventory-tracker.Server.csproj /p:SkipSpaProjectReference=true
+
+      - name: Restore backend tests
+        run: dotnet restore inventory-tracker.Server.Tests/inventory-tracker.Server.Tests.csproj /p:SkipSpaProjectReference=true
+
+      - name: Publish backend for e2e
+        run: dotnet publish inventory-tracker.Server/inventory-tracker.Server.csproj -c Debug --no-restore /p:SkipSpaProjectReference=true -o ${{ github.workspace }}/.tmp-e2e-server
+
+      - name: Run frontend unit tests
+        run: npm run test:unit
+        working-directory: inventory-tracker.client
+
+      - name: Run frontend e2e tests
+        run: npm run test:e2e -- --project=chromium
+        working-directory: inventory-tracker.client
+
+      - name: Run backend tests
+        run: dotnet test inventory-tracker.Server.Tests/inventory-tracker.Server.Tests.csproj --no-restore -p:UseAppHost=false
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: inventory-tracker.client
+
+      - name: Publish backend
+        run: dotnet publish inventory-tracker.Server/inventory-tracker.Server.csproj -c Release --no-restore -o ${{ github.workspace }}/publish /p:SkipSpaProjectReference=true
+
+      - name: Replace published wwwroot with frontend build
+        shell: pwsh
+        run: |
+          $publishWwwroot = Join-Path $env:GITHUB_WORKSPACE "publish/wwwroot"
+          if (Test-Path $publishWwwroot) {
+            Remove-Item -LiteralPath $publishWwwroot -Recurse -Force
+          }
+          New-Item -ItemType Directory -Path $publishWwwroot | Out-Null
+          Copy-Item -Path "$env:GITHUB_WORKSPACE/inventory-tracker.client/dist/*" -Destination $publishWwwroot -Recurse -Force
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ vars.AZURE_WEBAPP_NAME }}
+          package: ${{ github.workspace }}/publish
