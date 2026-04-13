@@ -2,6 +2,8 @@
 
 Manage inventory operations end to end with a modern React frontend and an ASP.NET Core API for reports, categories, products, transactions, and user management. The application uses PostgreSQL for data storage and includes Terraform-based Azure infrastructure for deployment.
 
+[See more images here](#screenshots)
+
 ## Repository Structure
 
 ```text
