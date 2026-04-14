@@ -13,7 +13,6 @@ Manage inventory operations end to end with a modern React frontend and an ASP.N
 |-- inventory-tracker.Server
 |-- inventory-tracker.Server.Tests
 |-- infrastructure
-|-- AZURE-DEPLOYMENT.md
 |-- inventory-tracker.slnx
 ```
 
@@ -22,7 +21,7 @@ This repository contains an inventory management application with:
 - Frontend React in `inventory-tracker.client`
 - Backend ASP.NET Core in `inventory-tracker.Server`
 - Backend test xUnit in `inventory-tracker.Server.Tests`
-- Infrastructure setup Terraform & Azure in `infrastructure`, `AZURE-DEPLOYMENT.md`
+- Infrastructure setup Terraform & Azure in `infrastructure`
 
 ## Tech Stack
 
