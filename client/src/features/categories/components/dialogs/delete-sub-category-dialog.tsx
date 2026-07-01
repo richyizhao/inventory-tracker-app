@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { ConfirmDialog } from "@/components/custom/confirm-dialog"
+import { ConfirmDialog } from "@/components/common/confirm-dialog"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import { deleteSubCategory } from "@/features/categories/api/delete-sub-category"
 import { dispatchCategoriesRefresh } from "@/lib/refresh-events"

@@ -20,10 +20,9 @@ export function useTableControls<
   const [selectedSort, setSelectedSort] = React.useState<TSort>(initialSort)
   const [filters, setFilters] = React.useState<TFilters>(initialFilters)
 
-  const setFilter = React.useCallback(function setFilter<TKey extends keyof TFilters>(
-    key: TKey,
-    value: TFilters[TKey]
-  ) {
+  const setFilter = React.useCallback(function updateFilter<
+    TKey extends keyof TFilters,
+  >(key: TKey, value: TFilters[TKey]) {
     setFilters((currentFilters) => ({
       ...currentFilters,
       [key]: value,

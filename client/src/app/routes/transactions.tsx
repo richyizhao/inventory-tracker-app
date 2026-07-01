@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 
-import { ListShell } from "@/components/custom/list-shell"
+import { ListShell } from "@/components/common/list-shell"
 import { TransactionsTableToolbar } from "@/features/transactions/components/transactions-table-toolbar"
 import { TransactionsTableGrid } from "@/features/transactions/components/transactions-table-grid"
 import { TransactionsTablePagination } from "@/features/transactions/components/transactions-table-pagination"
@@ -35,7 +35,10 @@ function RouteComponent() {
     )
   }
 
-  const totalPages = Math.max(1, Math.ceil(loadState.totalItems / loadState.pageSize))
+  const totalPages = Math.max(
+    1,
+    Math.ceil(loadState.totalItems / loadState.pageSize)
+  )
 
   return (
     <ListShell
@@ -60,9 +63,7 @@ function RouteComponent() {
           pageSize={pageSize}
           setPage={setPage}
           setPageSize={setPageSize}
-          totalItems={loadState.totalItems}
           totalPages={totalPages}
-          visibleTransactionsCount={loadState.transactions.length}
         />
       }
     >

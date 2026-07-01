@@ -10,7 +10,20 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { LayoutDashboardIcon, ChartLineIcon, TagsIcon, PackageSearchIcon, ScrollTextIcon, UsersRoundIcon, UserRoundKeyIcon, SettingsIcon, CircleUserRoundIcon, LogInIcon, LogOutIcon, PackageOpenIcon } from "lucide-react"
+import {
+  LayoutDashboardIcon,
+  ChartLineIcon,
+  TagsIcon,
+  PackageSearchIcon,
+  ScrollTextIcon,
+  UsersRoundIcon,
+  UserRoundKeyIcon,
+  SettingsIcon,
+  CircleUserRoundIcon,
+  LogInIcon,
+  LogOutIcon,
+  PackageOpenIcon,
+} from "lucide-react"
 
 import { LoginDialog } from "@/features/auth/components/dialogs/login-dialog"
 import { LogoutDialog } from "@/features/auth/components/dialogs/logout-dialog"
@@ -20,106 +33,81 @@ import { PersonalProfile } from "@/features/users/components/personal-profile"
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { isAuthReady, isAuthenticated } = useAuth()
 
-  const data = React.useMemo(() => ({
-    overview: [
-      {
-        name: "Dashboard",
-        url: "/",
-        icon: (
-          <LayoutDashboardIcon />
-        ),
-      },
-      {
-        name: "Analytics",
-        url: "/analytics",
-        icon: (
-          <ChartLineIcon />
-        ),
-      },
-    ],
-    inventory: [
-      {
-        name: "Categories",
-        url: "/categories",
-        icon: (
-          <TagsIcon />
-        ),
-      },
-      {
-        name: "Products",
-        url: "/products",
-        icon: (
-          <PackageSearchIcon />
-        ),
-      },
-      {
-        name: "Transactions",
-        url: "/transactions",
-        icon: (
-          <ScrollTextIcon />
-        ),
-      },
-    ],
-    management: [
-      {
-        name: "Users",
-        url: "/users",
-        icon: (
-          <UsersRoundIcon />
-        ),
-      },
-      {
-        name: "Roles",
-        url: "/roles",
-        icon: (
-          <UserRoundKeyIcon />
-        ),
-      },
-    ],
-    navSecondary: [
-      {
-        title: "Settings",
-        url: "/settings",
-        icon: (
-          <SettingsIcon />
-        ),
-      },
-      ...(isAuthReady && isAuthenticated
-        ? [
-            {
-              title: "Profile",
-              dialog: (
-                <PersonalProfile />
-              ),
-              icon: (
-                <CircleUserRoundIcon />
-              ),
-            },
-            {
-              title: "Logout",
-              dialog: (
-                <LogoutDialog />
-              ),
-              icon: (
-                <LogOutIcon />
-              ),
-            },
-          ]
-        : isAuthReady
+  const data = React.useMemo(
+    () => ({
+      overview: [
+        {
+          name: "Dashboard",
+          url: "/",
+          icon: <LayoutDashboardIcon />,
+        },
+        {
+          name: "Analytics",
+          url: "/analytics",
+          icon: <ChartLineIcon />,
+        },
+      ],
+      inventory: [
+        {
+          name: "Categories",
+          url: "/categories",
+          icon: <TagsIcon />,
+        },
+        {
+          name: "Products",
+          url: "/products",
+          icon: <PackageSearchIcon />,
+        },
+        {
+          name: "Transactions",
+          url: "/transactions",
+          icon: <ScrollTextIcon />,
+        },
+      ],
+      management: [
+        {
+          name: "Users",
+          url: "/users",
+          icon: <UsersRoundIcon />,
+        },
+        {
+          name: "Roles",
+          url: "/roles",
+          icon: <UserRoundKeyIcon />,
+        },
+      ],
+      navSecondary: [
+        {
+          title: "Settings",
+          url: "/settings",
+          icon: <SettingsIcon />,
+        },
+        ...(isAuthReady && isAuthenticated
           ? [
-            {
-              title: "Login",
-              dialog: (
-                <LoginDialog />
-              ),
-              icon: (
-                <LogInIcon />
-              ),
-            },
-          ]
-          : []),
-    ],
-  }), [isAuthReady, isAuthenticated])
+              {
+                title: "Profile",
+                dialog: <PersonalProfile />,
+                icon: <CircleUserRoundIcon />,
+              },
+              {
+                title: "Logout",
+                dialog: <LogoutDialog />,
+                icon: <LogOutIcon />,
+              },
+            ]
+          : isAuthReady
+            ? [
+                {
+                  title: "Login",
+                  dialog: <LoginDialog />,
+                  icon: <LogInIcon />,
+                },
+              ]
+            : []),
+      ],
+    }),
+    [isAuthReady, isAuthenticated]
+  )
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>

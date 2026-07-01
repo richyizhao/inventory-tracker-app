@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 
-import { ListShell } from "@/components/custom/list-shell"
+import { ListShell } from "@/components/common/list-shell"
 import { CategoriesTableGrid } from "@/features/categories/components/categories-table-grid"
 import { useCategoriesTable } from "@/features/categories/hooks/use-categories-table"
 

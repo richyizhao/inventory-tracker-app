@@ -81,7 +81,9 @@ export function ProductFormFields({
           >
             <SelectValue
               placeholder={
-                isLoadingCategories ? "Loading categories..." : "Select a category"
+                isLoadingCategories
+                  ? "Loading categories..."
+                  : "Select a category"
               }
             />
           </SelectTrigger>
@@ -132,7 +134,9 @@ export function ProductFormFields({
             type="number"
             min="0"
             value={values.totalUnitStock}
-            onChange={(event) => onFieldChange("totalUnitStock", event.target.value)}
+            onChange={(event) =>
+              onFieldChange("totalUnitStock", event.target.value)
+            }
             disabled={isSubmitting}
             required
           />
@@ -186,7 +190,9 @@ export function ProductFormFields({
           id={`${idPrefix}-image-file`}
           type="file"
           accept="image/png,image/jpeg,image/jpg,image/webp,image/gif"
-          onChange={(event) => onImageFileChange(event.target.files?.[0] ?? null)}
+          onChange={(event) =>
+            onImageFileChange(event.target.files?.[0] ?? null)
+          }
           disabled={isSubmitting || isUploadingImage}
         />
       </Field>

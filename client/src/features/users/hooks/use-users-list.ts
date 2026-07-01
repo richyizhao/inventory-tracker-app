@@ -25,28 +25,24 @@ export function useUsersList({
   setPage: React.Dispatch<React.SetStateAction<number>>
 }) {
   const deferredSearch = React.useDeferredValue(search)
-  const loadUsers = React.useCallback((token: string) => {
-    const selectedRole = roles.find((role) => role.name === selectedRoleName)
+  const loadUsers = React.useCallback(
+    (token: string) => {
+      const selectedRole = roles.find((role) => role.name === selectedRoleName)
 
-    return getUsers({
-      page,
-      pageSize,
-      roleId:
-        selectedRoleName === ALL_ROLES_FILTER_VALUE
-          ? undefined
-          : selectedRole?.id,
-      search: deferredSearch,
-      sort: selectedSort,
-      token,
-    })
-  }, [
-    deferredSearch,
-    page,
-    pageSize,
-    roles,
-    selectedRoleName,
-    selectedSort,
-  ])
+      return getUsers({
+        page,
+        pageSize,
+        roleId:
+          selectedRoleName === ALL_ROLES_FILTER_VALUE
+            ? undefined
+            : selectedRole?.id,
+        search: deferredSearch,
+        sort: selectedSort,
+        token,
+      })
+    },
+    [deferredSearch, page, pageSize, roles, selectedRoleName, selectedSort]
+  )
 
   const { loadState } = useRefreshableProtectedPagedLoad({
     errorMessage: "Failed to load users.",

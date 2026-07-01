@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { FormDialog } from "@/components/custom/form-dialog"
+import { FormDialog } from "@/components/common/form-dialog"
 import { SEEDED_ADMIN_USERNAME } from "@/config/app-config"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import { UserFormFields } from "@/features/users/components/forms/user-form-fields"

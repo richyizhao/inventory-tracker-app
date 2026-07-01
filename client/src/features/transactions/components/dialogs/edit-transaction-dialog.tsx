@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { FormDialog } from "@/components/custom/form-dialog"
+import { FormDialog } from "@/components/common/form-dialog"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import { TransactionFormFields } from "@/features/transactions/components/forms/transaction-form-fields"
 import { updateTransaction } from "@/features/transactions/api/update-transaction"
@@ -29,7 +29,8 @@ export function EditTransactionDialog({
     () => createTransactionFormValuesFromTransaction(transaction),
     [transaction]
   )
-  const { isLoadingOptions, optionsError, products, users } = useTransactionOptions()
+  const { isLoadingOptions, optionsError, products, users } =
+    useTransactionOptions()
   const { setField, values } = useTransactionForm(initialValues)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [error, setError] = React.useState("")

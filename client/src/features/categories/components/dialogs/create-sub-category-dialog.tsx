@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { FormDialog } from "@/components/custom/form-dialog"
+import { FormDialog } from "@/components/common/form-dialog"
 import { SubCategoryFormFields } from "@/features/categories/components/forms/sub-category-form-fields"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import { createSubCategory } from "@/features/categories/api/create-sub-category"
@@ -21,8 +21,7 @@ export function CreateSubCategoryDialog({
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [error, setError] = React.useState("")
 
-  const categories =
-    loadState.status === "success" ? loadState.categories : []
+  const categories = loadState.status === "success" ? loadState.categories : []
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()

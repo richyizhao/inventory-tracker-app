@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 
-import { ListShell } from "@/components/custom/list-shell"
+import { ListShell } from "@/components/common/list-shell"
 import { UsersTableToolbar } from "@/features/users/components/users-table-toolbar"
 import { UsersTableGrid } from "@/features/users/components/users-table-grid"
 import { UsersTablePagination } from "@/features/users/components/users-table-pagination"
@@ -65,9 +65,7 @@ function RouteComponent() {
           pageSize={pageSize}
           setPage={setPage}
           setPageSize={setPageSize}
-          totalItems={loadState.totalItems}
           totalPages={totalPages}
-          visibleUsersCount={loadState.users.length}
         />
       }
     >

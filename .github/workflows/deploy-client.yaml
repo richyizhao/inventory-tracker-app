@@ -1,15 +1,12 @@
 name: Deploy Client
 
 on:
+  workflow_run:
+    workflows:
+      - CI
+    types:
+      - completed
   workflow_dispatch:
-    inputs:
-      environment:
-        description: Target environment
-        required: true
-        type: choice
-        options:
-          - stage
-          - prod
 
 permissions:
   contents: read
@@ -17,15 +14,24 @@ permissions:
 
 jobs:
   deploy:
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event_name == 'workflow_run' &&
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == 'main'
+      )
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: prod
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: client/package-lock.json
 
@@ -34,42 +40,44 @@ jobs:
       - uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
       - name: Write backend config
         run: |
-          cat <<EOF > infra/backend.hcl
-          resource_group_name  = "${{ secrets.TFSTATE_RESOURCE_GROUP }}"
-          storage_account_name = "${{ secrets.TFSTATE_STORAGE_ACCOUNT }}"
-          container_name       = "${{ secrets.TFSTATE_CONTAINER }}"
-          key                  = "inventory-tracker-${{ inputs.environment }}.tfstate"
-          use_azuread_auth     = true
+          cat <<EOF > infra/environments/prod/backend.hcl
+          resource_group_name  = "${{ vars.TFSTATE_RESOURCE_GROUP }}"
+          storage_account_name = "${{ vars.TFSTATE_STORAGE_ACCOUNT }}"
+          container_name       = "${{ vars.TFSTATE_CONTAINER }}"
+          key                  = "inventory-tracker-prod.tfstate"
+          access_key           = "${{ secrets.TFSTATE_ACCESS_KEY }}"
           EOF
 
       - name: Terraform init
-        run: terraform -chdir=infra init -backend-config=backend.hcl
+        run: terraform -chdir=infra/environments/prod init -backend-config=backend.hcl
 
       - name: Read infrastructure outputs
         id: infra
         shell: bash
         run: |
-          echo "api_url=$(terraform -chdir=infra output -raw container_app_url)" >> "$GITHUB_OUTPUT"
-          echo "static_web_app_api_key=$(terraform -chdir=infra output -raw static_web_app_api_key)" >> "$GITHUB_OUTPUT"
+          echo "api_url=$(terraform -chdir=infra/environments/prod output -raw api_container_app_url)" >> "$GITHUB_OUTPUT"
+          echo "resource_group=$(terraform -chdir=infra/environments/prod output -raw resource_group_name)" >> "$GITHUB_OUTPUT"
+          echo "acr_name=$(terraform -chdir=infra/environments/prod output -raw container_registry_name)" >> "$GITHUB_OUTPUT"
+          echo "acr_login_server=$(terraform -chdir=infra/environments/prod output -raw container_registry_login_server)" >> "$GITHUB_OUTPUT"
+          echo "frontend_container_app=$(terraform -chdir=infra/environments/prod output -raw frontend_container_app_name)" >> "$GITHUB_OUTPUT"
 
-      - name: Build client
-        working-directory: client
-        env:
-          VITE_API_BASE_URL: ${{ steps.infra.outputs.api_url }}
+      - name: Build frontend image in ACR
         run: |
-          npm ci
-          npm run build
+          az acr build \
+            --registry "${{ steps.infra.outputs.acr_name }}" \
+            --image "inventory-tracker-client:prod-latest" \
+            --build-arg "VITE_API_BASE_URL=${{ steps.infra.outputs.api_url }}" \
+            --file client/Dockerfile \
+            client
 
-      - name: Upload Static Web App
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          action: upload
-          app_location: "client/dist"
-          skip_app_build: true
-          output_location: ""
-          azure_static_web_apps_api_token: ${{ steps.infra.outputs.static_web_app_api_key }}
+      - name: Update frontend Container App image
+        run: |
+          az containerapp update \
+            --name "${{ steps.infra.outputs.frontend_container_app }}" \
+            --resource-group "${{ steps.infra.outputs.resource_group }}" \
+            --image "${{ steps.infra.outputs.acr_login_server }}/inventory-tracker-client:prod-latest"

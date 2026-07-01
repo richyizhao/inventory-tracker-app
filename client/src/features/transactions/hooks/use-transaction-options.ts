@@ -6,7 +6,10 @@ import type { Product } from "@/features/products/types/products"
 import { getUsers } from "@/features/users/api/get-users"
 import type { User } from "@/features/users/types/users"
 
-function compareByName(left: { name?: string; displayName?: string }, right: { name?: string; displayName?: string }) {
+function compareByName(
+  left: { name?: string; displayName?: string },
+  right: { name?: string; displayName?: string }
+) {
   const leftLabel = left.name ?? left.displayName ?? ""
   const rightLabel = right.name ?? right.displayName ?? ""
 

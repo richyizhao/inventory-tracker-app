@@ -24,25 +24,22 @@ export function useTransactionsList({
   setPage: React.Dispatch<React.SetStateAction<number>>
 }) {
   const deferredSearch = React.useDeferredValue(search)
-  const loadTransactions = React.useCallback((token: string) => {
-    return getTransactions({
-      page,
-      pageSize,
-      search: deferredSearch,
-      sort: selectedSort,
-      type:
-        selectedType === "all types"
-          ? undefined
-          : (selectedType as TransactionTypeValue),
-      token,
-    })
-  }, [
-    deferredSearch,
-    page,
-    pageSize,
-    selectedSort,
-    selectedType,
-  ])
+  const loadTransactions = React.useCallback(
+    (token: string) => {
+      return getTransactions({
+        page,
+        pageSize,
+        search: deferredSearch,
+        sort: selectedSort,
+        type:
+          selectedType === "all types"
+            ? undefined
+            : (selectedType as TransactionTypeValue),
+        token,
+      })
+    },
+    [deferredSearch, page, pageSize, selectedSort, selectedType]
+  )
 
   const { loadState } = useRefreshableProtectedPagedLoad({
     errorMessage: "Failed to load transactions.",

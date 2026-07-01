@@ -13,9 +13,12 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-  type ChartConfig,
 } from "@/components/ui/chart"
-import type { ProfitByCategoryPoint, RestockExpenseByCategoryPoint } from "@/features/analytics/types/analytics"
+import type { ChartConfig } from "@/components/ui/chart"
+import type {
+  ProfitByCategoryPoint,
+  RestockExpenseByCategoryPoint,
+} from "@/features/analytics/types/analytics"
 
 export const description = "A bar chart with a custom label"
 
@@ -37,7 +40,9 @@ function formatCompactNumber(value: number) {
   }).format(value)
 }
 
-function formatCompactLabelValue(value: number | string | boolean | null | undefined) {
+function formatCompactLabelValue(
+  value: number | string | boolean | null | undefined
+) {
   return formatCompactNumber(Number(value ?? 0))
 }
 
@@ -66,10 +71,18 @@ export function ChartBarHorizontal({
   )
     .map((categoryName) => ({
       categoryName,
-      profit: profitData.find((item) => item.categoryName === categoryName)?.profit ?? 0,
-      spending: spendingData.find((item) => item.categoryName === categoryName)?.restockExpense ?? 0,
+      profit:
+        profitData.find((item) => item.categoryName === categoryName)?.profit ??
+        0,
+      spending:
+        spendingData.find((item) => item.categoryName === categoryName)
+          ?.restockExpense ?? 0,
     }))
-    .sort((left, right) => Math.max(right.profit, right.spending) - Math.max(left.profit, left.spending))
+    .sort(
+      (left, right) =>
+        Math.max(right.profit, right.spending) -
+        Math.max(left.profit, left.spending)
+    )
 
   const domainMax = Math.max(
     ...chartData.flatMap((item) => [item.profit, item.spending]),
@@ -107,11 +120,14 @@ export function ChartBarHorizontal({
               tickFormatter={(value) => formatCompactNumber(Number(value))}
               hide
             />
-            <ChartTooltip
-              content={<ChartTooltipContent />}
-            />
+            <ChartTooltip content={<ChartTooltipContent />} />
             <ChartLegend content={<ChartLegendContent />} />
-            <Bar dataKey="spending" fill="var(--color-spending)" radius={4} barSize={24}>
+            <Bar
+              dataKey="spending"
+              fill="var(--color-spending)"
+              radius={4}
+              barSize={24}
+            >
               <LabelList
                 dataKey="spending"
                 position="right"
@@ -121,7 +137,12 @@ export function ChartBarHorizontal({
                 fontSize={12}
               />
             </Bar>
-            <Bar dataKey="profit" fill="var(--color-profit)" radius={4} barSize={24}>
+            <Bar
+              dataKey="profit"
+              fill="var(--color-profit)"
+              radius={4}
+              barSize={24}
+            >
               <LabelList
                 dataKey="profit"
                 position="right"

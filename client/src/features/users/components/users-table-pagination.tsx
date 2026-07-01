@@ -1,4 +1,4 @@
-import { Pagination } from "@/components/custom/pagination"
+import { Pagination } from "@/components/common/pagination"
 
 export function UsersTablePagination({
   hasNextPage,
@@ -7,9 +7,7 @@ export function UsersTablePagination({
   pageSize,
   setPage,
   setPageSize,
-  totalItems,
   totalPages,
-  visibleUsersCount,
 }: {
   hasNextPage: boolean
   hasPreviousPage: boolean
@@ -17,9 +15,7 @@ export function UsersTablePagination({
   pageSize: number
   setPage: (value: number | ((currentValue: number) => number)) => void
   setPageSize: (value: number) => void
-  totalItems: number
   totalPages: number
-  visibleUsersCount: number
 }) {
   return (
     <Pagination
@@ -29,10 +25,7 @@ export function UsersTablePagination({
       pageSize={pageSize}
       onPageChange={setPage}
       onPageSizeChange={setPageSize}
-      totalItems={totalItems}
       totalPages={totalPages}
-      visibleItemsCount={visibleUsersCount}
-      itemLabel="users"
       rowsPerPageId="users-rows-per-page"
     />
   )

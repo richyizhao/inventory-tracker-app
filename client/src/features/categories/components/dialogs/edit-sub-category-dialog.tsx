@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { FormDialog } from "@/components/custom/form-dialog"
+import { FormDialog } from "@/components/common/form-dialog"
 import { SubCategoryFormFields } from "@/features/categories/components/forms/sub-category-form-fields"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import { updateSubCategory } from "@/features/categories/api/update-sub-category"
@@ -25,7 +25,9 @@ export function EditSubCategoryDialog({
 }) {
   const { session } = useAuth()
   const [name, setName] = React.useState(subCategory.name)
-  const [selectedCategoryName, setSelectedCategoryName] = React.useState(category.name)
+  const [selectedCategoryName, setSelectedCategoryName] = React.useState(
+    category.name
+  )
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [error, setError] = React.useState("")
 

@@ -44,7 +44,8 @@ export function useUsersTable() {
     setPage,
     setPageSize,
     setSearch,
-    setSelectedRoleName: (value: string) => setFilter("selectedRoleName", value),
+    setSelectedRoleName: (value: string) =>
+      setFilter("selectedRoleName", value),
     setSelectedSort,
   }
 }

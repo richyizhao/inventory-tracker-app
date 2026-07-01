@@ -1,6 +1,12 @@
 import { Badge } from "@/components/ui/badge"
-import { Grid } from "@/components/custom/grid"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Grid } from "@/components/common/grid"
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { ProductTableActions } from "@/features/products/components/product-table-actions"
 import type { Product } from "@/features/products/types/products"
 import placeholderImage from "@/assets/placeholder.png"
@@ -31,7 +37,8 @@ export function ProductsTableGrid({ products }: { products: Product[] }) {
       renderItem={(product) => {
         const imageSrc = product.imageUrl || placeholderImage
         const margin = product.sellPrice - product.buyPrice
-        const marginPercentage = product.sellPrice > 0 ? margin / product.sellPrice : 0
+        const marginPercentage =
+          product.sellPrice > 0 ? margin / product.sellPrice : 0
 
         return (
           <Card className="h-full gap-0 py-0">
@@ -46,15 +53,21 @@ export function ProductsTableGrid({ products }: { products: Product[] }) {
             <CardContent className="mt-1 space-y-3 pb-4">
               <div className="space-y-2 text-sm">
                 <p>
-                  <span className="font-medium text-muted-foreground">SKU:</span>{" "}
+                  <span className="font-medium text-muted-foreground">
+                    SKU:
+                  </span>{" "}
                   {product.sku}
                 </p>
                 <p>
-                  <span className="font-medium text-muted-foreground">Sell Price:</span>{" "}
+                  <span className="font-medium text-muted-foreground">
+                    Sell Price:
+                  </span>{" "}
                   {formatCurrency(product.sellPrice)}
                 </p>
                 <p>
-                  <span className="font-medium text-muted-foreground">Margin:</span>{" "}
+                  <span className="font-medium text-muted-foreground">
+                    Margin:
+                  </span>{" "}
                   {formatCurrency(margin)}{" "}
                   <Badge
                     variant="secondary"
@@ -68,9 +81,13 @@ export function ProductsTableGrid({ products }: { products: Product[] }) {
                   </Badge>
                 </p>
                 <p>
-                  <span className="font-medium text-muted-foreground">Total Units:</span>{" "}
+                  <span className="font-medium text-muted-foreground">
+                    Total Units:
+                  </span>{" "}
                   {product.totalUnitStock}{" "}
-                  {product.isLowStock ? <Badge variant="destructive">Low stock</Badge> : null}
+                  {product.isLowStock ? (
+                    <Badge variant="destructive">Low stock</Badge>
+                  ) : null}
                 </p>
               </div>
             </CardContent>

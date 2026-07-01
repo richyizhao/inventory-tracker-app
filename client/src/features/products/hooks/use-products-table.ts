@@ -34,7 +34,8 @@ export function useProductsTable() {
       selectedSubCategoryKey: ALL_SUB_CATEGORIES_FILTER_VALUE,
     },
   })
-  const { categories, categoriesError, isLoadingCategories } = useProductCategories()
+  const { categories, categoriesError, isLoadingCategories } =
+    useProductCategories()
   const { selectedCategoryName, selectedSubCategoryKey } = filters
 
   React.useEffect(() => {

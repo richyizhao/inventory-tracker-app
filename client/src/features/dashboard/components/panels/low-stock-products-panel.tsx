@@ -1,5 +1,11 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { StatePanel } from "@/components/custom/state-panel"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { StatePanel } from "@/components/common/state-panel"
 import type { DashboardLowStockProduct } from "@/features/dashboard/types/dashboard"
 
 export function LowStockProductsPanel({
@@ -11,7 +17,9 @@ export function LowStockProductsPanel({
     <Card>
       <CardHeader>
         <CardTitle>Low Stock Products</CardTitle>
-        <CardDescription>Products closest to or below threshold</CardDescription>
+        <CardDescription>
+          Products closest to or below threshold
+        </CardDescription>
       </CardHeader>
       <CardContent className="max-h-[360px] overflow-y-auto pr-2">
         {products.length === 0 ? (
@@ -23,14 +31,21 @@ export function LowStockProductsPanel({
         ) : (
           <div className="space-y-3">
             {products.map((product) => (
-              <div key={product.id} className="flex items-center justify-between rounded-lg border p-3">
+              <div
+                key={product.id}
+                className="flex items-center justify-between rounded-lg border p-3"
+              >
                 <div className="min-w-0">
                   <div className="truncate font-medium">{product.name}</div>
-                  <div className="text-sm text-muted-foreground">{product.sku}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {product.sku}
+                  </div>
                 </div>
                 <div className="text-right">
                   <div className="font-medium">{product.unitsLeft} left</div>
-                  <div className="text-sm text-muted-foreground">Threshold {product.threshold}</div>
+                  <div className="text-sm text-muted-foreground">
+                    Threshold {product.threshold}
+                  </div>
                 </div>
               </div>
             ))}

@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { FormDialog } from "@/components/custom/form-dialog"
+import { FormDialog } from "@/components/common/form-dialog"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import { createRole } from "@/features/roles/api/create-role"
 import { RoleFormFields } from "@/features/roles/components/forms/role-form-fields"
@@ -26,7 +26,8 @@ export function CreateRoleDialog({
   onOpenChange?: (open: boolean) => void
 }) {
   const { session } = useAuth()
-  const { setName, setPermission, setValues, values } = useRoleForm(initialFormValues)
+  const { setName, setPermission, setValues, values } =
+    useRoleForm(initialFormValues)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [error, setError] = React.useState("")
 

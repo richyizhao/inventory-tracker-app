@@ -11,7 +11,7 @@ export function TransactionsHeaderActions() {
   return (
     <div className="ml-auto flex items-center gap-2">
       <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
-        <DialogTrigger 
+        <DialogTrigger
           render={<Button variant="outline" type="button" size="sm" />}
         >
           <PlusIcon />

@@ -18,7 +18,12 @@ export function UserTableActions({ user }: { user: User }) {
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
         <DialogTrigger
           render={
-            <Button variant="outline" type="button" size="sm" disabled={isAdminUser} />
+            <Button
+              variant="outline"
+              type="button"
+              size="sm"
+              disabled={isAdminUser}
+            />
           }
         >
           <PencilIcon />

@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { ConfirmDialog } from "@/components/custom/confirm-dialog"
+import { ConfirmDialog } from "@/components/common/confirm-dialog"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import { deleteTransaction } from "@/features/transactions/api/delete-transaction"
 import { dispatchTransactionsRefresh } from "@/lib/refresh-events"

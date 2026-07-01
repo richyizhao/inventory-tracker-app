@@ -11,8 +11,8 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  type ChartConfig,
 } from "@/components/ui/chart"
+import type { ChartConfig } from "@/components/ui/chart"
 import type { InventoryValueDistributionPoint } from "@/features/analytics/types/analytics"
 
 export const description = "A donut chart"

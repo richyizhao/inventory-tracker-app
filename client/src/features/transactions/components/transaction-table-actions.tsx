@@ -18,7 +18,9 @@ export function TransactionTableActions({
   return (
     <div className="flex items-center justify-end gap-2">
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogTrigger render={<Button variant="outline" type="button" size="sm" />}>
+        <DialogTrigger
+          render={<Button variant="outline" type="button" size="sm" />}
+        >
           <PencilIcon />
           Edit
         </DialogTrigger>

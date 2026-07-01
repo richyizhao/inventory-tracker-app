@@ -14,7 +14,7 @@ export function SearchInput({
       value={value}
       onChange={(event) => onChange(event.target.value)}
       placeholder={placeholder}
-      className="w-full"
+      className="h-7 w-full text-sm md:text-sm"
     />
   )
 }

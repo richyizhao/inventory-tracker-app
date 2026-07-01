@@ -39,7 +39,7 @@ export function BadgeActionShell({
               className="size-5 rounded-full"
             />
           }
-      >
+        >
           <PencilIcon />
           <span className="sr-only">Edit {badgeLabel}</span>
         </DialogTrigger>

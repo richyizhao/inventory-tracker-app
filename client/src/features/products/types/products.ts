@@ -20,11 +20,7 @@ export type Product = {
   updatedAtUtc: string | null
 }
 
-export type ProductSort =
-  | "newest"
-  | "stock-low-high"
-  | "name-a-z"
-  | "sku-a-z"
+export type ProductSort = "newest" | "stock-low-high" | "name-a-z" | "sku-a-z"
 
 export type ProductFormValues = {
   name: string

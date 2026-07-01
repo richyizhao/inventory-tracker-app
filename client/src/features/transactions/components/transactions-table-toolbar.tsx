@@ -1,6 +1,6 @@
-import { FilterSelect } from "@/components/custom/filter-select"
-import { SearchInput } from "@/components/custom/search-input"
-import { Toolbar } from "@/components/custom/toolbar"
+import { FilterSelect } from "@/components/common/filter-select"
+import { SearchInput } from "@/components/common/search-input"
+import { Toolbar } from "@/components/common/toolbar"
 import type { TransactionSort } from "@/features/transactions/types/transactions"
 
 export function TransactionsTableToolbar({
@@ -30,31 +30,30 @@ export function TransactionsTableToolbar({
       filters={
         <>
           <FilterSelect
-          value={selectedType}
-          onChange={setSelectedType}
-          placeholder="Filter by type"
-          options={[
-            { label: "All types", value: "all types" },
-            { label: "Stock in", value: "IN" },
-            { label: "Stock out", value: "OUT" },
-            { label: "Adjustment", value: "ADJUSTMENT" },
-          ]}
-        />
-        <FilterSelect
-          value={selectedSort}
-          onChange={(value) => {
-            if (value === "newest" || value === "updated") {
-              setSelectedSort(value)
-            }
-          }}
-          placeholder="Sort transactions"
-          triggerClassName="w-full sm:w-52"
-          options={[
-            { label: "latest created", value: "newest" },
-            { label: "latest updated", value: "updated" },
-          ]}
-        />
-      </>
+            value={selectedType}
+            onChange={setSelectedType}
+            placeholder="Filter by type"
+            options={[
+              { label: "All types", value: "all types" },
+              { label: "Stock in", value: "IN" },
+              { label: "Stock out", value: "OUT" },
+              { label: "Adjustment", value: "ADJUSTMENT" },
+            ]}
+          />
+          <FilterSelect
+            value={selectedSort}
+            onChange={(value) => {
+              if (value === "newest" || value === "updated") {
+                setSelectedSort(value)
+              }
+            }}
+            placeholder="Sort transactions"
+            options={[
+              { label: "latest created", value: "newest" },
+              { label: "latest updated", value: "updated" },
+            ]}
+          />
+        </>
       }
     />
   )

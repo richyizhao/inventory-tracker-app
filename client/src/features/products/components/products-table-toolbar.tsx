@@ -1,6 +1,6 @@
-import { FilterSelect } from "@/components/custom/filter-select"
-import { SearchInput } from "@/components/custom/search-input"
-import { Toolbar } from "@/components/custom/toolbar"
+import { FilterSelect } from "@/components/common/filter-select"
+import { SearchInput } from "@/components/common/search-input"
+import { Toolbar } from "@/components/common/toolbar"
 import {
   ALL_CATEGORIES_FILTER_VALUE,
   ALL_SUB_CATEGORIES_FILTER_VALUE,
@@ -59,55 +59,53 @@ export function ProductsTableToolbar({
       filters={
         <>
           <FilterSelect
-          value={selectedCategoryName}
-          onChange={setSelectedCategoryName}
-          placeholder="Filter by category"
-          options={[
-            { label: "All categories", value: ALL_CATEGORIES_FILTER_VALUE },
-            ...categories.map((category) => ({
-              label: category.name,
-              value: category.name,
-            })),
-          ]}
-        />
-        <FilterSelect
-          value={selectedSubCategoryKey}
-          onChange={setSelectedSubCategoryKey}
-          placeholder="Filter by sub-category"
-          triggerClassName="w-full sm:w-56"
-          options={[
-            {
-              label: "All sub-categories",
-              value: ALL_SUB_CATEGORIES_FILTER_VALUE,
-            },
-            ...visibleSubCategories.map((subCategory) => ({
-              label: subCategory.name,
-              value: `${subCategory.id}:${subCategory.name}`,
-            })),
-          ]}
-        />
-        <FilterSelect
-          value={selectedSort}
-          onChange={(value) => {
-            if (
-              value === "newest" ||
-              value === "stock-low-high" ||
-              value === "name-a-z" ||
-              value === "sku-a-z"
-            ) {
-              setSelectedSort(value)
-            }
-          }}
-          placeholder="Sort products"
-          triggerClassName="w-full sm:w-52"
-          options={[
-            { label: "latest created", value: "newest" },
-            { label: "stock low to high", value: "stock-low-high" },
-            { label: "name A-Z", value: "name-a-z" },
-            { label: "SKU A-Z", value: "sku-a-z" },
-          ]}
-        />
-      </>
+            value={selectedCategoryName}
+            onChange={setSelectedCategoryName}
+            placeholder="Filter by category"
+            options={[
+              { label: "All categories", value: ALL_CATEGORIES_FILTER_VALUE },
+              ...categories.map((category) => ({
+                label: category.name,
+                value: category.name,
+              })),
+            ]}
+          />
+          <FilterSelect
+            value={selectedSubCategoryKey}
+            onChange={setSelectedSubCategoryKey}
+            placeholder="Filter by sub-category"
+            options={[
+              {
+                label: "All sub-categories",
+                value: ALL_SUB_CATEGORIES_FILTER_VALUE,
+              },
+              ...visibleSubCategories.map((subCategory) => ({
+                label: subCategory.name,
+                value: `${subCategory.id}:${subCategory.name}`,
+              })),
+            ]}
+          />
+          <FilterSelect
+            value={selectedSort}
+            onChange={(value) => {
+              if (
+                value === "newest" ||
+                value === "stock-low-high" ||
+                value === "name-a-z" ||
+                value === "sku-a-z"
+              ) {
+                setSelectedSort(value)
+              }
+            }}
+            placeholder="Sort products"
+            options={[
+              { label: "latest created", value: "newest" },
+              { label: "stock low to high", value: "stock-low-high" },
+              { label: "name A-Z", value: "name-a-z" },
+              { label: "SKU A-Z", value: "sku-a-z" },
+            ]}
+          />
+        </>
       }
     />
   )

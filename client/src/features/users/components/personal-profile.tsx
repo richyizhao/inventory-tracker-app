@@ -91,7 +91,9 @@ export function PersonalProfile() {
           <DialogClose render={<Button variant="outline">Cancel</Button>} />
           <Button
             type="submit"
-            disabled={isLoading || isSubmitting || isAdminUser || profile === null}
+            disabled={
+              isLoading || isSubmitting || isAdminUser || profile === null
+            }
           >
             {isSubmitting ? "Saving..." : "Save changes"}
           </Button>

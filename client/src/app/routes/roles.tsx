@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 
-import { ListShell } from "@/components/custom/list-shell"
+import { ListShell } from "@/components/common/list-shell"
 import { RolesTableGrid } from "@/features/roles/components/roles-table-grid"
 import { useRolesTable } from "@/features/roles/hooks/use-roles-table"
 

@@ -1,0 +1,7 @@
+# Environment files
+.azure/
+.env
+.env.*
+
+# Keep example templates
+!.env.example

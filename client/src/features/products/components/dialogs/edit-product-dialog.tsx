@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { FormDialog } from "@/components/custom/form-dialog"
+import { FormDialog } from "@/components/common/form-dialog"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import { ProductFormFields } from "@/features/products/components/forms/product-form-fields"
 import { uploadProductImage } from "@/features/products/api/upload-product-image"
@@ -29,7 +29,8 @@ export function EditProductDialog({
     () => createProductFormValuesFromProduct(product),
     [product]
   )
-  const { categories, categoriesError, isLoadingCategories } = useProductCategories()
+  const { categories, categoriesError, isLoadingCategories } =
+    useProductCategories()
   const { setField, values } = useProductForm(initialValues)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [isUploadingImage, setIsUploadingImage] = React.useState(false)

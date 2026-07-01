@@ -1,6 +1,13 @@
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, type TableColumn } from "@/components/custom/table"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Table } from "@/components/common/table"
+import type { TableColumn } from "@/components/common/table"
 import type { DashboardRecentTransaction } from "@/features/dashboard/types/dashboard"
 import { formatRelativeDateTime } from "@/lib/date-time"
 
@@ -47,7 +54,9 @@ export function RecentTransactionsCard({
     <Card>
       <CardHeader>
         <CardTitle>Recent Transactions</CardTitle>
-        <CardDescription>Latest inventory activity across the store</CardDescription>
+        <CardDescription>
+          Latest inventory activity across the store
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Table

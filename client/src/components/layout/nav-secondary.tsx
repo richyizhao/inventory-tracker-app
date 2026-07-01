@@ -36,7 +36,9 @@ export function NavSecondary({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               {item.dialog ? (
-                <NavSecondaryDialogItem item={{ ...item, dialog: item.dialog }} />
+                <NavSecondaryDialogItem
+                  item={{ ...item, dialog: item.dialog }}
+                />
               ) : (
                 <SidebarMenuButton
                   render={item.url ? <Link to={item.url} /> : undefined}

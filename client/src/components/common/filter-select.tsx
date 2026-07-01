@@ -17,7 +17,7 @@ export function FilterSelect({
   onChange,
   placeholder,
   options,
-  triggerClassName = "w-full sm:w-48",
+  triggerClassName = "w-full 2xl:w-48",
 }: {
   value: string
   onChange: (value: string) => void

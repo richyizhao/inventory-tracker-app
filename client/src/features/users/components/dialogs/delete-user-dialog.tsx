@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { ConfirmDialog } from "@/components/custom/confirm-dialog"
+import { ConfirmDialog } from "@/components/common/confirm-dialog"
 import { SEEDED_ADMIN_USERNAME } from "@/config/app-config"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import { deleteUser } from "@/features/users/api/delete-user"

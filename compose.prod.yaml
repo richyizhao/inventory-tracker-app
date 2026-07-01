@@ -11,6 +11,6 @@ services:
       "Jwt:Key": ${JWT_KEY}
       "ProductImageStorage:Provider": AzureBlob
       "ProductImageStorage:ConnectionString": ${AZURE_BLOB_CONNECTION_STRING}
-      "ProductImageStorage:ContainerName": ${AZURE_BLOB_CONTAINER:-product-images}
+      "ProductImageStorage:ContainerName": ${AZURE_BLOB_CONTAINER:-product-images-prod}
     ports:
       - "${API_PORT:-8080}:8080"

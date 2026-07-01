@@ -27,7 +27,11 @@ export function formatRelativeDateTime(dateString: string | null) {
   const diffMs = date.getTime() - now.getTime()
   const diffMinutes = Math.round(diffMs / (1000 * 60))
   const diffHours = Math.round(diffMs / (1000 * 60 * 60))
-  const startOfDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+  const startOfDate = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  )
   const startOfNow = new Date(now.getFullYear(), now.getMonth(), now.getDate())
   const diffDays = Math.round(
     (startOfDate.getTime() - startOfNow.getTime()) / (1000 * 60 * 60 * 24)

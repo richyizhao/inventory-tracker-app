@@ -5,9 +5,7 @@ import { useAuth } from "@/features/auth/hooks/use-auth"
 import { getCurrentUserProfile } from "@/features/users/api/get-current-user-profile"
 import { updateCurrentUserProfile } from "@/features/users/api/update-current-user-profile"
 import { useUserForm } from "@/features/users/hooks/use-user-form"
-import {
-  createEmptyUserFormValues,
-} from "@/features/users/lib/user-form"
+import { createEmptyUserFormValues } from "@/features/users/lib/user-form"
 import { dispatchUsersRefresh } from "@/lib/refresh-events"
 import type { CurrentUserProfile } from "@/features/users/types/users"
 import { ApiError } from "@/lib/api"

@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { FormDialog } from "@/components/custom/form-dialog"
+import { FormDialog } from "@/components/common/form-dialog"
 import { CategoryFormFields } from "@/features/categories/components/forms/category-form-fields"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import { updateCategory } from "@/features/categories/api/update-category"

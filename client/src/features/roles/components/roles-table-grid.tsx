@@ -1,4 +1,5 @@
-import { Table, type TableColumn } from "@/components/custom/table"
+import { Table } from "@/components/common/table"
+import type { TableColumn } from "@/components/common/table"
 import { RoleTableActions } from "@/features/roles/components/role-table-actions"
 import type { RoleRow } from "@/features/roles/types/roles"
 import { formatExactDateTime, formatRelativeDateTime } from "@/lib/date-time"

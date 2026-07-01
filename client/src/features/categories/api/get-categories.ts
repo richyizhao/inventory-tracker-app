@@ -12,10 +12,8 @@ export async function getCategories(token: string) {
     token,
   })
 
-  return [...categories]
-    .sort(compareByName)
-    .map((category) => ({
-      ...category,
-      subCategories: [...category.subCategories].sort(compareByName),
-    }))
+  return [...categories].sort(compareByName).map((category) => ({
+    ...category,
+    subCategories: [...category.subCategories].sort(compareByName),
+  }))
 }

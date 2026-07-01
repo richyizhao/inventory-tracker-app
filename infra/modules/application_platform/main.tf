@@ -1,11 +1,11 @@
 locals {
-  name_prefix         = lower("${var.project_name}-${var.environment}")
-  compact_name_prefix = lower(replace(var.project_name, "-", ""))
-  resource_group_name = "${local.name_prefix}-rg"
-  log_analytics_name  = "${local.name_prefix}-logs"
-  container_env_name  = "${local.name_prefix}-cae"
-  container_app_name  = "${local.name_prefix}-api"
-  static_web_app_name = "${local.name_prefix}-frontend"
+  name_prefix                 = lower("${var.project_name}-${var.environment}")
+  compact_name_prefix         = lower(replace(var.project_name, "-", ""))
+  resource_group_name         = "${local.name_prefix}-rg"
+  log_analytics_name          = "${local.name_prefix}-logs"
+  container_env_name          = "${local.name_prefix}-cae"
+  api_container_app_name      = "${local.name_prefix}-server"
+  frontend_container_app_name = "${local.name_prefix}-client"
 }
 
 resource "random_string" "storage_suffix" {
@@ -20,6 +20,11 @@ locals {
   storage_account_name = substr("${local.compact_name_prefix}${var.environment}sa${random_string.storage_suffix.result}", 0, 24)
   container_registry   = substr("${local.compact_name_prefix}${var.environment}acr${random_string.storage_suffix.result}", 0, 50)
   postgres_server_name = substr("${local.compact_name_prefix}-${var.environment}-psql-${random_string.storage_suffix.result}", 0, 63)
+
+  frontend_url               = "https://${azurerm_container_app.frontend.ingress[0].fqdn}"
+  api_url                    = "https://${azurerm_container_app.api.ingress[0].fqdn}"
+  api_environment_name       = var.environment == "prod" ? "Production" : "Staging"
+  postgres_connection_string = "Host=${azurerm_postgresql_flexible_server.main.fqdn};Port=5432;Database=${azurerm_postgresql_flexible_server_database.main.name};Username=${var.postgres_admin_username};Password=${var.postgres_admin_password};Ssl Mode=Require;Trust Server Certificate=true"
 }
 
 resource "azurerm_resource_group" "main" {
@@ -35,6 +40,14 @@ resource "azurerm_log_analytics_workspace" "main" {
   sku                 = "PerGB2018"
   retention_in_days   = 30
   tags                = var.tags
+}
+
+resource "azurerm_container_app_environment" "main" {
+  name                       = local.container_env_name
+  location                   = azurerm_resource_group.main.location
+  resource_group_name        = azurerm_resource_group.main.name
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
+  tags                       = var.tags
 }
 
 resource "azurerm_container_registry" "main" {
@@ -77,6 +90,12 @@ resource "azurerm_postgresql_flexible_server" "main" {
   storage_mb                    = var.postgres_storage_mb
   public_network_access_enabled = true
   tags                          = var.tags
+
+  lifecycle {
+    ignore_changes = [
+      zone,
+    ]
+  }
 }
 
 resource "azurerm_postgresql_flexible_server_database" "main" {
@@ -93,31 +112,66 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_azure_service
   end_ip_address   = "0.0.0.0"
 }
 
-resource "azurerm_container_app_environment" "main" {
-  name                       = local.container_env_name
-  location                   = azurerm_resource_group.main.location
-  resource_group_name        = azurerm_resource_group.main.name
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
-  tags                       = var.tags
-}
+resource "azurerm_container_app" "frontend" {
+  name                         = local.frontend_container_app_name
+  container_app_environment_id = azurerm_container_app_environment.main.id
+  resource_group_name          = azurerm_resource_group.main.name
+  revision_mode                = "Single"
+  tags                         = var.tags
 
-resource "azurerm_static_web_app" "main" {
-  name                = local.static_web_app_name
-  resource_group_name = azurerm_resource_group.main.name
-  location            = azurerm_resource_group.main.location
-  sku_tier            = var.static_web_app_sku_tier
-  sku_size            = var.static_web_app_sku_size
-  tags                = var.tags
-}
+  secret {
+    name  = "acr-password"
+    value = azurerm_container_registry.main.admin_password
+  }
 
-locals {
-  frontend_url               = "https://${azurerm_static_web_app.main.default_host_name}"
-  api_env_name               = var.environment == "prod" ? "Production" : "Staging"
-  postgres_connection_string = "Host=${azurerm_postgresql_flexible_server.main.fqdn};Port=5432;Database=${azurerm_postgresql_flexible_server_database.main.name};Username=${var.postgres_admin_username};Password=${var.postgres_admin_password};Ssl Mode=Require;Trust Server Certificate=true"
+  registry {
+    server               = azurerm_container_registry.main.login_server
+    username             = azurerm_container_registry.main.admin_username
+    password_secret_name = "acr-password"
+  }
+
+  ingress {
+    external_enabled = true
+    target_port      = var.frontend_container_port
+    transport        = "auto"
+
+    traffic_weight {
+      latest_revision = true
+      percentage      = 100
+    }
+  }
+
+  template {
+    min_replicas = var.frontend_container_app_min_replicas
+    max_replicas = var.frontend_container_app_max_replicas
+
+    container {
+      name   = "client"
+      image  = var.frontend_image
+      cpu    = var.frontend_container_app_cpu
+      memory = var.frontend_container_app_memory
+
+      env {
+        name  = "HOST"
+        value = "0.0.0.0"
+      }
+
+      env {
+        name  = "PORT"
+        value = tostring(var.frontend_container_port)
+      }
+    }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      template[0].container[0].image,
+    ]
+  }
 }
 
 resource "azurerm_container_app" "api" {
-  name                         = local.container_app_name
+  name                         = local.api_container_app_name
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
   revision_mode                = "Single"
@@ -172,7 +226,7 @@ resource "azurerm_container_app" "api" {
 
       env {
         name  = "ASPNETCORE_ENVIRONMENT"
-        value = local.api_env_name
+        value = local.api_environment_name
       }
 
       env {

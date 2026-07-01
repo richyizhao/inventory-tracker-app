@@ -18,7 +18,12 @@ export function RoleTableActions({ role }: { role: RoleRow }) {
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
         <DialogTrigger
           render={
-            <Button variant="outline" type="button" size="sm" disabled={isAdminRole} />
+            <Button
+              variant="outline"
+              type="button"
+              size="sm"
+              disabled={isAdminRole}
+            />
           }
         >
           <PencilIcon />

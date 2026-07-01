@@ -5,7 +5,7 @@ import { ThemeProvider } from "next-themes"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { App } from "@/app/app"
 
-import appCss from "../../styles/global.css?url"
+import appCss from "../global.css?url"
 
 export const Route = createRootRoute({
   head: () => ({
@@ -51,9 +51,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           disableTransitionOnChange
         >
           <TooltipProvider>
-            <App>
-              {children}
-            </App>
+            <App>{children}</App>
           </TooltipProvider>
         </ThemeProvider>
         <TanStackDevtools

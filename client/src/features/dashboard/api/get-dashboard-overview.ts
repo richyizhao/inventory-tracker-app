@@ -7,7 +7,10 @@ export function getDashboardOverview(token: string) {
     recentTransactionsCount: "5",
   })
 
-  return apiRequest<DashboardOverviewResponse>(`/dashboard?${searchParams.toString()}`, {
-    token,
-  })
+  return apiRequest<DashboardOverviewResponse>(
+    `/dashboard?${searchParams.toString()}`,
+    {
+      token,
+    }
+  )
 }

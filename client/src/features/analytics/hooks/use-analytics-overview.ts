@@ -13,7 +13,9 @@ const DEFAULT_ANALYTICS_RANGE: AnalyticsRangeLabel = "1 month"
 
 export function useAnalyticsOverview() {
   const { isAuthenticated, session } = useAuth()
-  const [range, setRange] = React.useState<AnalyticsRangeLabel>(DEFAULT_ANALYTICS_RANGE)
+  const [range, setRange] = React.useState<AnalyticsRangeLabel>(
+    DEFAULT_ANALYTICS_RANGE
+  )
   const [loadState, setLoadState] = React.useState<AnalyticsOverviewLoadState>({
     status: "loading",
   })
@@ -21,16 +23,16 @@ export function useAnalyticsOverview() {
   React.useEffect(() => {
     function handleRangeChange(event: Event) {
       const nextRange = (event as CustomEvent<AnalyticsRangeLabel>).detail
-
-      if (nextRange) {
-        setRange(nextRange)
-      }
+      setRange(nextRange)
     }
 
     window.addEventListener(ANALYTICS_RANGE_CHANGE_EVENT, handleRangeChange)
 
     return () => {
-      window.removeEventListener(ANALYTICS_RANGE_CHANGE_EVENT, handleRangeChange)
+      window.removeEventListener(
+        ANALYTICS_RANGE_CHANGE_EVENT,
+        handleRangeChange
+      )
     }
   }, [])
 
@@ -89,7 +91,9 @@ export function useAnalyticsOverview() {
           return {
             status: "error",
             message:
-              error instanceof Error ? error.message : "Failed to load analytics.",
+              error instanceof Error
+                ? error.message
+                : "Failed to load analytics.",
           }
         })
       })

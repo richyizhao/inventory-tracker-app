@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 
-import { ListShell } from "@/components/custom/list-shell"
+import { ListShell } from "@/components/common/list-shell"
 import { ChartBarVertical } from "@/features/dashboard/components/charts/chart-bar-vertical"
 import { SectionCards } from "@/features/dashboard/components/cards/section-cards"
 import { LowStockProductsPanel } from "@/features/dashboard/components/panels/low-stock-products-panel"

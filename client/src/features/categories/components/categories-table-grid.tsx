@@ -1,9 +1,14 @@
-import { Table, type TableColumn } from "@/components/custom/table"
+import { Table } from "@/components/common/table"
+import type { TableColumn } from "@/components/common/table"
 import { CategoryBadgeActions } from "@/features/categories/components/badges/category-badge-actions"
 import { SubCategoryBadgeActions } from "@/features/categories/components/badges/sub-category-badge-actions"
 import type { Category } from "@/features/categories/types/categories"
 
-export function CategoriesTableGrid({ categories }: { categories: Category[] }) {
+export function CategoriesTableGrid({
+  categories,
+}: {
+  categories: Category[]
+}) {
   const columns: TableColumn<Category>[] = [
     {
       key: "category",

@@ -3,7 +3,9 @@ import { Drawer as DrawerPrimitive } from "vaul"
 
 import { cn } from "@/lib/utils"
 
-type DrawerTriggerProps = React.ComponentProps<typeof DrawerPrimitive.Trigger> & {
+type DrawerTriggerProps = React.ComponentProps<
+  typeof DrawerPrimitive.Trigger
+> & {
   render?: React.ReactElement
 }
 
@@ -17,11 +19,7 @@ function Drawer({
   return <DrawerPrimitive.Root data-slot="drawer" {...props} />
 }
 
-function DrawerTrigger({
-  render,
-  children,
-  ...props
-}: DrawerTriggerProps) {
+function DrawerTrigger({ render, children, ...props }: DrawerTriggerProps) {
   if (render) {
     return (
       <DrawerPrimitive.Trigger data-slot="drawer-trigger" asChild {...props}>
@@ -43,11 +41,7 @@ function DrawerPortal({
   return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />
 }
 
-function DrawerClose({
-  render,
-  children,
-  ...props
-}: DrawerCloseProps) {
+function DrawerClose({ render, children, ...props }: DrawerCloseProps) {
   if (render) {
     return (
       <DrawerPrimitive.Close data-slot="drawer-close" asChild {...props}>

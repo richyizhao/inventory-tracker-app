@@ -11,5 +11,5 @@ export type PagedLoadState<TItem, TKey extends string> =
   | ({
       status: "success"
     } & PaginationMeta & {
-      [key in TKey]: TItem[]
-    })
+        [key in TKey]: TItem[]
+      })

@@ -94,7 +94,9 @@ export function UserFormFields({
             disabled={isLoadingRoles || isSubmitting}
           >
             <SelectValue
-              placeholder={isLoadingRoles ? "Loading roles..." : "Select a role"}
+              placeholder={
+                isLoadingRoles ? "Loading roles..." : "Select a role"
+              }
             />
           </SelectTrigger>
           <SelectContent>

@@ -2,7 +2,10 @@ import type { InventoryValueDistributionPoint } from "@/features/analytics/types
 import { apiRequest } from "@/lib/api"
 
 export function getInventoryValueDistribution(token: string) {
-  return apiRequest<InventoryValueDistributionPoint[]>("/analytics/inventory-value-distribution", {
-    token,
-  })
+  return apiRequest<InventoryValueDistributionPoint[]>(
+    "/analytics/inventory-value-distribution",
+    {
+      token,
+    }
+  )
 }

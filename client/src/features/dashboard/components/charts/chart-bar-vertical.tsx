@@ -13,8 +13,8 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-  type ChartConfig,
 } from "@/components/ui/chart"
+import type { ChartConfig } from "@/components/ui/chart"
 import type { DashboardInventoryMovementPoint } from "@/features/dashboard/types/dashboard"
 import { formatCompactNumber } from "@/lib/number-format"
 
@@ -45,7 +45,9 @@ export function ChartBarVertical({
     <Card>
       <CardHeader>
         <CardTitle>Inventory Movements</CardTitle>
-        <CardDescription>Stock in vs stock out over the last 7 days</CardDescription>
+        <CardDescription>
+          Stock in vs stock out over the last 7 days
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[360px] w-full">
@@ -71,12 +73,20 @@ export function ChartBarVertical({
               width={40}
               tickFormatter={(value) => formatCompactNumber(Number(value))}
             />
-            <ChartTooltip
-              content={<ChartTooltipContent />}
-            />
+            <ChartTooltip content={<ChartTooltipContent />} />
             <ChartLegend content={<ChartLegendContent />} />
-            <Bar dataKey="stockIn" fill="var(--color-stockIn)" radius={4} barSize={18} />
-            <Bar dataKey="stockOut" fill="var(--color-stockOut)" radius={4} barSize={18} />
+            <Bar
+              dataKey="stockIn"
+              fill="var(--color-stockIn)"
+              radius={4}
+              barSize={18}
+            />
+            <Bar
+              dataKey="stockOut"
+              fill="var(--color-stockOut)"
+              radius={4}
+              barSize={18}
+            />
           </BarChart>
         </ChartContainer>
       </CardContent>

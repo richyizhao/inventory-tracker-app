@@ -15,7 +15,14 @@ export function ProductTableActions({ product }: { product: Product }) {
     <div className="flex w-full items-center gap-2">
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
         <DialogTrigger
-          render={<Button variant="outline" type="button" size="sm" className="flex-1" />}
+          render={
+            <Button
+              variant="outline"
+              type="button"
+              size="sm"
+              className="flex-1"
+            />
+          }
         >
           <PencilIcon />
           Edit
@@ -25,7 +32,12 @@ export function ProductTableActions({ product }: { product: Product }) {
       <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
         <DialogTrigger
           render={
-            <Button variant="destructive" type="button" size="sm" className="flex-1" />
+            <Button
+              variant="destructive"
+              type="button"
+              size="sm"
+              className="flex-1"
+            />
           }
         >
           <Trash2Icon />

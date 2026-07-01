@@ -13,8 +13,8 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-  type ChartConfig,
 } from "@/components/ui/chart"
+import type { ChartConfig } from "@/components/ui/chart"
 import type { ProfitSpendingPoint } from "@/features/analytics/types/analytics"
 
 export const description = "An area chart with a legend"
@@ -58,10 +58,7 @@ export function ChartArea({
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[360px] w-full">
-          <AreaChart
-            accessibilityLayer
-            data={chartData}
-          >
+          <AreaChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="date"

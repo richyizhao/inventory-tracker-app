@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { FormDialog } from "@/components/custom/form-dialog"
+import { FormDialog } from "@/components/common/form-dialog"
 import { SEEDED_ADMIN_ROLE_NAME } from "@/config/app-config"
 import { useAuth } from "@/features/auth/hooks/use-auth"
 import { updateRole } from "@/features/roles/api/update-role"

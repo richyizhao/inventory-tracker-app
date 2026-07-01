@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
 
-import { StatePanel } from "@/components/custom/state-panel"
+import { StatePanel } from "@/components/common/state-panel"
 
 export function ListShell({
   loading,
@@ -36,7 +36,7 @@ export function ListShell({
   }
 
   return (
-    <div className="flex flex-1 flex-col p-4 lg:p-6">
+    <div className="flex min-w-0 flex-1 flex-col p-4 lg:p-6">
       {toolbar}
       {children}
       {footer}

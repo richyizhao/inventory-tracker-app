@@ -6,10 +6,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { dispatchAnalyticsRangeChange } from "@/features/analytics/lib/analytics-events"
-import {
-  analyticsRangeOptions,
-  type AnalyticsRangeLabel,
-} from "@/features/analytics/lib/analytics-ranges"
+import { analyticsRangeOptions } from "@/features/analytics/lib/analytics-ranges"
+import type { AnalyticsRangeLabel } from "@/features/analytics/lib/analytics-ranges"
 
 export function AnalyticsHeaderActions() {
   return (
@@ -22,7 +20,11 @@ export function AnalyticsHeaderActions() {
           }
         }}
       >
-        <SelectTrigger className="w-40" size="sm" aria-label="Select analytics range">
+        <SelectTrigger
+          className="w-40"
+          size="sm"
+          aria-label="Select analytics range"
+        >
           <SelectValue placeholder="1 month" />
         </SelectTrigger>
         <SelectContent>

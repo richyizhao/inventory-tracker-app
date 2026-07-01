@@ -22,8 +22,16 @@ export function StatePanel({
   if (kind === "error") {
     return (
       <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-4">
-        {title ? <div className="font-medium text-destructive">{title}</div> : null}
-        <div className={title ? "mt-1 text-sm text-muted-foreground" : "text-sm text-muted-foreground"}>
+        {title ? (
+          <div className="font-medium text-destructive">{title}</div>
+        ) : null}
+        <div
+          className={
+            title
+              ? "mt-1 text-sm text-muted-foreground"
+              : "text-sm text-muted-foreground"
+          }
+        >
           {message}
         </div>
       </div>
@@ -33,7 +41,7 @@ export function StatePanel({
   return (
     <div
       className={cn(
-        "flex min-h-40 items-center justify-center rounded-lg border border-dashed text-center text-muted-foreground mb-4",
+        "mb-4 flex min-h-40 items-center justify-center rounded-lg border border-dashed text-center text-muted-foreground",
         className
       )}
     >

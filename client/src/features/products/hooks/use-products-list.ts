@@ -30,36 +30,39 @@ export function useProductsList({
   setPage: React.Dispatch<React.SetStateAction<number>>
 }) {
   const deferredSearch = React.useDeferredValue(search)
-  const loadProducts = React.useCallback((token: string) => {
-    const selectedCategory = categories.find(
-      (category) => category.name === selectedCategoryName
-    )
-    const selectedSubCategoryId =
-      selectedSubCategoryKey === ALL_SUB_CATEGORIES_FILTER_VALUE
-        ? undefined
-        : Number(selectedSubCategoryKey.split(":")[0])
+  const loadProducts = React.useCallback(
+    (token: string) => {
+      const selectedCategory = categories.find(
+        (category) => category.name === selectedCategoryName
+      )
+      const selectedSubCategoryId =
+        selectedSubCategoryKey === ALL_SUB_CATEGORIES_FILTER_VALUE
+          ? undefined
+          : Number(selectedSubCategoryKey.split(":")[0])
 
-    return getProducts({
+      return getProducts({
+        page,
+        pageSize,
+        categoryId:
+          selectedCategoryName === ALL_CATEGORIES_FILTER_VALUE
+            ? undefined
+            : selectedCategory?.id,
+        subCategoryId: selectedSubCategoryId,
+        search: deferredSearch,
+        sort: selectedSort,
+        token,
+      })
+    },
+    [
+      categories,
+      deferredSearch,
       page,
       pageSize,
-      categoryId:
-        selectedCategoryName === ALL_CATEGORIES_FILTER_VALUE
-          ? undefined
-          : selectedCategory?.id,
-      subCategoryId: selectedSubCategoryId,
-      search: deferredSearch,
-      sort: selectedSort,
-      token,
-    })
-  }, [
-    categories,
-    deferredSearch,
-    page,
-    pageSize,
-    selectedCategoryName,
-    selectedSubCategoryKey,
-    selectedSort,
-  ])
+      selectedCategoryName,
+      selectedSubCategoryKey,
+      selectedSort,
+    ]
+  )
 
   const { loadState } = useRefreshableProtectedPagedLoad({
     errorMessage: "Failed to load products.",

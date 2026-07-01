@@ -11,7 +11,9 @@ export function ProductsHeaderActions() {
   return (
     <div className="ml-auto">
       <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
-        <DialogTrigger render={<Button variant="outline" type="button" size="sm" />}>
+        <DialogTrigger
+          render={<Button variant="outline" type="button" size="sm" />}
+        >
           <PlusIcon />
           Add product
         </DialogTrigger>

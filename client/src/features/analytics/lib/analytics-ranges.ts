@@ -7,4 +7,5 @@ export const analyticsRangeOptions = [
   { label: "max" },
 ] as const
 
-export type AnalyticsRangeLabel = (typeof analyticsRangeOptions)[number]["label"]
+export type AnalyticsRangeLabel =
+  (typeof analyticsRangeOptions)[number]["label"]

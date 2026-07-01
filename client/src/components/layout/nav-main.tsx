@@ -12,7 +12,7 @@ export function NavMain({
   title,
   items,
 }: {
-  title: string,
+  title: string
   items: {
     name: string
     url: string

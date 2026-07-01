@@ -1,4 +1,8 @@
-import type { AuthSession, LoginRequest, LoginResponse } from "@/features/auth/types/auth"
+import type {
+  AuthSession,
+  LoginRequest,
+  LoginResponse,
+} from "@/features/auth/types/auth"
 
 export function createAuthSession(
   response: LoginResponse,

@@ -1,4 +1,9 @@
-import { Field, FieldDescription, FieldError, FieldGroup } from "@/components/ui/field"
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+} from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
@@ -40,7 +45,8 @@ export function TransactionFormFields({
   values: TransactionFormValues
 }) {
   const estimatedTotal =
-    Number(values.productQuantityChanged || 0) * Number(values.unitProductCost || 0)
+    Number(values.productQuantityChanged || 0) *
+    Number(values.unitProductCost || 0)
 
   return (
     <FieldGroup>
@@ -92,7 +98,9 @@ export function TransactionFormFields({
             disabled={isLoadingOptions || isSubmitting}
           >
             <SelectValue
-              placeholder={isLoadingOptions ? "Loading users..." : "Select a user"}
+              placeholder={
+                isLoadingOptions ? "Loading users..." : "Select a user"
+              }
             />
           </SelectTrigger>
           <SelectContent>
@@ -111,12 +119,8 @@ export function TransactionFormFields({
         <Select
           value={values.type}
           onValueChange={(value) => {
-            if (
-              value === "IN" ||
-              value === "OUT" ||
-              value === "ADJUSTMENT"
-            ) {
-              onFieldChange("type", value as TransactionTypeValue)
+            if (value === "IN" || value === "OUT" || value === "ADJUSTMENT") {
+              onFieldChange("type", value)
             }
           }}
         >
@@ -161,7 +165,9 @@ export function TransactionFormFields({
             min="0"
             step="0.01"
             value={values.unitProductCost}
-            onChange={(event) => onFieldChange("unitProductCost", event.target.value)}
+            onChange={(event) =>
+              onFieldChange("unitProductCost", event.target.value)
+            }
             disabled={isSubmitting}
             required
           />
@@ -177,7 +183,8 @@ export function TransactionFormFields({
           placeholder="Optional note"
         />
         <FieldDescription>
-          Estimated total cost: {new Intl.NumberFormat(undefined, {
+          Estimated total cost:{" "}
+          {new Intl.NumberFormat(undefined, {
             style: "currency",
             currency: "USD",
           }).format(estimatedTotal)}

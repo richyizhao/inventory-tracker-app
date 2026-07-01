@@ -1,4 +1,4 @@
-name: Terraform
+name: Deploy Infra
 
 on:
   pull_request:
@@ -7,13 +7,6 @@ on:
       - ".github/workflows/deploy-infra.yaml"
   workflow_dispatch:
     inputs:
-      environment:
-        description: Target environment
-        required: true
-        type: choice
-        options:
-          - stage
-          - prod
       command:
         description: Terraform command
         required: true
@@ -37,18 +30,18 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
 
       - name: Terraform fmt
-        run: terraform -chdir=infra fmt -check
+        run: terraform -chdir=infra fmt -check -recursive
 
       - name: Terraform init
-        run: terraform -chdir=infra init -backend=false
+        run: terraform -chdir=infra/environments/prod init -backend=false
 
       - name: Terraform validate
-        run: terraform -chdir=infra validate
+        run: terraform -chdir=infra/environments/prod validate
 
   deploy:
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: prod
 
     env:
       TF_VAR_postgres_admin_password: ${{ secrets.TF_VAR_postgres_admin_password }}
@@ -59,34 +52,44 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v3
 
+      - name: Validate JWT key length
+        shell: bash
+        env:
+          TF_VAR_jwt_key: ${{ secrets.TF_VAR_jwt_key }}
+        run: |
+          if [ ${#TF_VAR_jwt_key} -lt 16 ]; then
+            echo "TF_VAR_jwt_key must be at least 16 characters for HMAC-SHA256 signing."
+            exit 1
+          fi
+
       - uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
       - name: Write backend config
         run: |
-          cat <<EOF > infra/backend.hcl
-          resource_group_name  = "${{ secrets.TFSTATE_RESOURCE_GROUP }}"
-          storage_account_name = "${{ secrets.TFSTATE_STORAGE_ACCOUNT }}"
-          container_name       = "${{ secrets.TFSTATE_CONTAINER }}"
-          key                  = "inventory-tracker-${{ inputs.environment }}.tfstate"
-          use_azuread_auth     = true
+          cat <<EOF > infra/environments/prod/backend.hcl
+          resource_group_name  = "${{ vars.TFSTATE_RESOURCE_GROUP }}"
+          storage_account_name = "${{ vars.TFSTATE_STORAGE_ACCOUNT }}"
+          container_name       = "${{ vars.TFSTATE_CONTAINER }}"
+          key                  = "inventory-tracker-prod.tfstate"
+          access_key           = "${{ secrets.TFSTATE_ACCESS_KEY }}"
           EOF
 
       - name: Terraform init
-        run: terraform -chdir=infra init -backend-config=backend.hcl
+        run: terraform -chdir=infra/environments/prod init -backend-config=backend.hcl
 
       - name: Terraform fmt
-        run: terraform -chdir=infra fmt -check
+        run: terraform -chdir=infra fmt -check -recursive
 
       - name: Terraform validate
-        run: terraform -chdir=infra validate
+        run: terraform -chdir=infra/environments/prod validate
 
       - name: Terraform plan
-        run: terraform -chdir=infra plan -var-file=environments/${{ inputs.environment }}.tfvars -out=tfplan
+        run: terraform -chdir=infra/environments/prod plan -out=tfplan
 
       - name: Terraform apply
         if: inputs.command == 'apply'
-        run: terraform -chdir=infra apply -auto-approve tfplan
+        run: terraform -chdir=infra/environments/prod apply -auto-approve tfplan

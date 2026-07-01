@@ -16,6 +16,8 @@ public static class ConfigureApp
         app.UseCors("ClientCors");
         app.UseAuthentication();
         app.UseAuthorization();
+        app.MapGet("/", () => Results.Redirect("/swagger"))
+            .AllowAnonymous();
         app.MapEndpoints();
         await app.EnsureDatabaseCreated();
     }

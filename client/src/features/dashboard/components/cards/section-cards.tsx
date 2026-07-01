@@ -15,7 +15,10 @@ export function SectionCards({
 }: {
   summary: Pick<
     DashboardOverviewResponse,
-    "totalInventoryValue" | "totalLowStockProductTypes" | "totalProductsInStock" | "unitsMovedLast7Days"
+    | "totalInventoryValue"
+    | "totalLowStockProductTypes"
+    | "totalProductsInStock"
+    | "unitsMovedLast7Days"
   >
 }) {
   return (
@@ -32,7 +35,9 @@ export function SectionCards({
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="font-medium">Live inventory cost</div>
-          <div className="text-muted-foreground">Based on stock and buy price</div>
+          <div className="text-muted-foreground">
+            Based on stock and buy price
+          </div>
         </CardFooter>
       </Card>
 
@@ -48,7 +53,9 @@ export function SectionCards({
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="font-medium">Inbound + outbound volume</div>
-          <div className="text-muted-foreground">Movement over the last week</div>
+          <div className="text-muted-foreground">
+            Movement over the last week
+          </div>
         </CardFooter>
       </Card>
 
@@ -64,7 +71,9 @@ export function SectionCards({
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="font-medium">Sellable products now</div>
-          <div className="text-muted-foreground">Currently available in stock</div>
+          <div className="text-muted-foreground">
+            Currently available in stock
+          </div>
         </CardFooter>
       </Card>
 

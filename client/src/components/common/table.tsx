@@ -29,7 +29,7 @@ export function Table<TItem>({
   emptyMessage: string
 }) {
   return (
-    <div className="overflow-hidden rounded-lg border">
+    <div className="min-w-0 overflow-hidden rounded-lg border">
       <UITable>
         <TableHeader className="bg-muted/50">
           <TableRow>

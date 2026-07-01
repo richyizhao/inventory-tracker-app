@@ -5,10 +5,7 @@ import { useRefreshTrigger } from "@/hooks/use-refresh-trigger"
 import type { PagedLoadState } from "@/types/load-state"
 import type { PagedResponse } from "@/types/pagination"
 
-export function useRefreshableProtectedPagedLoad<
-  TItem,
-  TKey extends string,
->({
+export function useRefreshableProtectedPagedLoad<TItem, TKey extends string>({
   errorMessage,
   eventName,
   itemKey,
@@ -26,9 +23,11 @@ export function useRefreshableProtectedPagedLoad<
   unauthenticatedMessage: string
 }) {
   const { session } = useAuth()
-  const [loadState, setLoadState] = React.useState<PagedLoadState<TItem, TKey>>({
-    status: "loading",
-  })
+  const [loadState, setLoadState] = React.useState<PagedLoadState<TItem, TKey>>(
+    {
+      status: "loading",
+    }
+  )
 
   React.useEffect(() => {
     setPage(1)
@@ -69,7 +68,7 @@ export function useRefreshableProtectedPagedLoad<
           pageSize: response.pageSize,
           hasNextPage: response.hasNextPage,
           hasPreviousPage: response.hasPreviousPage,
-        } as PagedLoadState<TItem, TKey>)
+        })
       })
       .catch((loadError: unknown) => {
         if (isCancelled) {

@@ -35,9 +35,10 @@ export function LoginDialog({
       toast.success(`Signed in as ${username}`)
       onOpenChange?.(false)
     } catch (submitError) {
-      const message = submitError instanceof ApiError
-        ? submitError.message
-        : "Unable to sign in right now."
+      const message =
+        submitError instanceof ApiError
+          ? submitError.message
+          : "Unable to sign in right now."
 
       setError(message)
       toast.error(message)

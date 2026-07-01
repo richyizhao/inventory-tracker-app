@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge"
-import { Table, type TableColumn } from "@/components/custom/table"
+import { Table } from "@/components/common/table"
+import type { TableColumn } from "@/components/common/table"
 import { TransactionTableActions } from "@/features/transactions/components/transaction-table-actions"
 import type { Transaction } from "@/features/transactions/types/transactions"
 import { formatExactDateTime, formatRelativeDateTime } from "@/lib/date-time"
@@ -95,7 +96,9 @@ export function TransactionsTableGrid({
       key: "actions",
       header: "Actions",
       cellClassName: "w-px",
-      cell: (transaction) => <TransactionTableActions transaction={transaction} />,
+      cell: (transaction) => (
+        <TransactionTableActions transaction={transaction} />
+      ),
     },
   ]
 

@@ -1,0 +1,29 @@
+module "application_platform" {
+  source = "../../modules/application_platform"
+
+  project_name                        = var.project_name
+  environment                         = var.environment
+  location                            = var.location
+  tags                                = var.tags
+  api_image                           = var.api_image
+  frontend_image                      = var.frontend_image
+  server_container_port               = var.server_container_port
+  frontend_container_port             = var.frontend_container_port
+  container_app_cpu                   = var.container_app_cpu
+  container_app_memory                = var.container_app_memory
+  frontend_container_app_cpu          = var.frontend_container_app_cpu
+  frontend_container_app_memory       = var.frontend_container_app_memory
+  container_app_min_replicas          = var.container_app_min_replicas
+  container_app_max_replicas          = var.container_app_max_replicas
+  frontend_container_app_min_replicas = var.frontend_container_app_min_replicas
+  frontend_container_app_max_replicas = var.frontend_container_app_max_replicas
+  container_registry_sku              = var.container_registry_sku
+  postgres_admin_username             = var.postgres_admin_username
+  postgres_admin_password             = var.postgres_admin_password
+  postgres_version                    = var.postgres_version
+  postgres_sku_name                   = var.postgres_sku_name
+  postgres_storage_mb                 = var.postgres_storage_mb
+  database_name                       = var.database_name
+  blob_container_name                 = var.blob_container_name
+  jwt_key                             = var.jwt_key
+}

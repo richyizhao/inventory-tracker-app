@@ -1,9 +1,6 @@
 import * as React from "react"
 
-export function useRefreshTrigger(
-  eventName: string,
-  onRefresh?: () => void
-) {
+export function useRefreshTrigger(eventName: string, onRefresh?: () => void) {
   const [refreshKey, setRefreshKey] = React.useState(0)
 
   React.useEffect(() => {

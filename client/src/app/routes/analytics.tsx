@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router"
 
-import { ListShell } from "@/components/custom/list-shell"
+import { ListShell } from "@/components/common/list-shell"
 import { ChartArea } from "@/features/analytics/components/charts/chart-area"
 import { ChartBarHorizontal } from "@/features/analytics/components/charts/chart-bar-horizontal"
 import { ChartPieDonut } from "@/features/analytics/components/charts/chart-pie-donut"
 import { useAnalyticsOverview } from "@/features/analytics/hooks/use-analytics-overview"
 
-export const Route = createFileRoute('/analytics')({
+export const Route = createFileRoute("/analytics")({
   component: RouteComponent,
 })
 
@@ -32,7 +32,7 @@ function RouteComponent() {
       loadingText="Loading analytics..."
       errorTitle="Unable to load analytics"
     >
-      <div className="@container/main flex flex-1 flex-col gap-2 -m-4 lg:-m-6">
+      <div className="@container/main -m-4 flex flex-1 flex-col gap-2 lg:-m-6">
         <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
           <div className="grid gap-6 px-4 lg:px-6 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
             <ChartBarHorizontal

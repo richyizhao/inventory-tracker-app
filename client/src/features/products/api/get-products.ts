@@ -1,5 +1,8 @@
 import { apiRequest } from "@/lib/api"
-import type { PagedProductsResponse, ProductSort } from "@/features/products/types/products"
+import type {
+  PagedProductsResponse,
+  ProductSort,
+} from "@/features/products/types/products"
 
 type GetProductsOptions = {
   page?: number
