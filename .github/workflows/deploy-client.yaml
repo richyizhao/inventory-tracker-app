@@ -1,0 +1,75 @@
+name: Deploy Client
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment
+        required: true
+        type: choice
+        options:
+          - stage
+          - prod
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+
+      - uses: hashicorp/setup-terraform@v3
+
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Write backend config
+        run: |
+          cat <<EOF > infra/backend.hcl
+          resource_group_name  = "${{ secrets.TFSTATE_RESOURCE_GROUP }}"
+          storage_account_name = "${{ secrets.TFSTATE_STORAGE_ACCOUNT }}"
+          container_name       = "${{ secrets.TFSTATE_CONTAINER }}"
+          key                  = "inventory-tracker-${{ inputs.environment }}.tfstate"
+          use_azuread_auth     = true
+          EOF
+
+      - name: Terraform init
+        run: terraform -chdir=infra init -backend-config=backend.hcl
+
+      - name: Read infrastructure outputs
+        id: infra
+        shell: bash
+        run: |
+          echo "api_url=$(terraform -chdir=infra output -raw container_app_url)" >> "$GITHUB_OUTPUT"
+          echo "static_web_app_api_key=$(terraform -chdir=infra output -raw static_web_app_api_key)" >> "$GITHUB_OUTPUT"
+
+      - name: Build client
+        working-directory: client
+        env:
+          VITE_API_BASE_URL: ${{ steps.infra.outputs.api_url }}
+        run: |
+          npm ci
+          npm run build
+
+      - name: Upload Static Web App
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          action: upload
+          app_location: "client/dist"
+          skip_app_build: true
+          output_location: ""
+          azure_static_web_apps_api_token: ${{ steps.infra.outputs.static_web_app_api_key }}

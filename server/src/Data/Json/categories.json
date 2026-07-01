@@ -1,0 +1,70 @@
+[
+  {
+    "name": "Accessories",
+    "subCategories": [
+      "Adapters",
+      "Cable Management",
+      "Cables",
+      "Chargers",
+      "Mounts & Stands",
+      "Power Banks"
+    ]
+  },
+  {
+    "name": "Computers",
+    "subCategories": [
+      "All-in-One PCs",
+      "Gaming PCs",
+      "Laptops",
+      "Mini PCs",
+      "Refurbished Systems",
+      "Workstations"
+    ]
+  },
+  {
+    "name": "Mobiles",
+    "subCategories": [
+      "Smartphones",
+      "Smartwatches",
+      "Tablets"
+    ]
+  },
+  {
+    "name": "Networks",
+    "subCategories": [
+      "Access Points",
+      "Modems",
+      "Network Switches",
+      "Routers"
+    ]
+  },
+  {
+    "name": "Components",
+    "subCategories": [
+      "Case Fans",
+      "CPU",
+      "CPU Cooler",
+      "Expansion Cards",
+      "GPU",
+      "Motherboard",
+      "PC Cases",
+      "PSU",
+      "Ram",
+      "Storage",
+      "Thermal Paste"
+    ]
+  },
+  {
+    "name": "Peripherals",
+    "subCategories": [
+      "Monitor",
+      "Keyboards",
+      "Mice",
+      "Microphones",
+      "Mouse Pads",
+      "Speakers",
+      "Webcams",
+      "Drawing Tablets"
+    ]
+  }
+]

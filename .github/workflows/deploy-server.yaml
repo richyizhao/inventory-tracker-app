@@ -1,0 +1,74 @@
+name: Deploy API
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment
+        required: true
+        type: choice
+        options:
+          - stage
+          - prod
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Write backend config
+        run: |
+          cat <<EOF > infra/backend.hcl
+          resource_group_name  = "${{ secrets.TFSTATE_RESOURCE_GROUP }}"
+          storage_account_name = "${{ secrets.TFSTATE_STORAGE_ACCOUNT }}"
+          container_name       = "${{ secrets.TFSTATE_CONTAINER }}"
+          key                  = "inventory-tracker-${{ inputs.environment }}.tfstate"
+          use_azuread_auth     = true
+          EOF
+
+      - name: Terraform init
+        run: terraform -chdir=infra init -backend-config=backend.hcl
+
+      - name: Read infrastructure outputs
+        id: infra
+        shell: bash
+        run: |
+          echo "resource_group=$(terraform -chdir=infra output -raw resource_group_name)" >> "$GITHUB_OUTPUT"
+          echo "container_app=$(terraform -chdir=infra output -raw container_app_name)" >> "$GITHUB_OUTPUT"
+          echo "acr_name=$(terraform -chdir=infra output -raw container_registry_name)" >> "$GITHUB_OUTPUT"
+          echo "acr_login_server=$(terraform -chdir=infra output -raw container_registry_login_server)" >> "$GITHUB_OUTPUT"
+
+      - name: Azure Container Registry login
+        run: az acr login --name "${{ steps.infra.outputs.acr_name }}"
+
+      - name: Build and push API image
+        shell: bash
+        run: |
+          IMAGE_SHA="${{ steps.infra.outputs.acr_login_server }}/inventory-tracker-api:${GITHUB_SHA}"
+          IMAGE_LATEST="${{ steps.infra.outputs.acr_login_server }}/inventory-tracker-api:${{ inputs.environment }}-latest"
+          docker build -f server/Dockerfile -t "$IMAGE_SHA" -t "$IMAGE_LATEST" server
+          docker push "$IMAGE_SHA"
+          docker push "$IMAGE_LATEST"
+          echo "IMAGE_SHA=$IMAGE_SHA" >> "$GITHUB_ENV"
+
+      - name: Update Container App image
+        run: |
+          az containerapp update \
+            --name "${{ steps.infra.outputs.container_app }}" \
+            --resource-group "${{ steps.infra.outputs.resource_group }}" \
+            --image "$IMAGE_SHA"

@@ -1,0 +1,9 @@
+[
+  {
+    "displayName": "Administrator",
+    "username": "admin",
+    "email": "admin@inventory.local",
+    "password": "Admin123!",
+    "roleName": "Admin"
+  }
+]

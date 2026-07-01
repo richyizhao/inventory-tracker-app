@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Admin",
+    "permissions": [
+      { "page": "Dashboard", "canView": true, "canEdit": true },
+      { "page": "Analytics", "canView": true, "canEdit": true },
+      { "page": "Categories", "canView": true, "canEdit": true },
+      { "page": "Products", "canView": true, "canEdit": true },
+      { "page": "Transactions", "canView": true, "canEdit": true },
+      { "page": "Users", "canView": true, "canEdit": true },
+      { "page": "Roles", "canView": true, "canEdit": true }
+    ]
+  },
+  {
+    "name": "Manager",
+    "permissions": [
+      { "page": "Dashboard", "canView": true, "canEdit": true },
+      { "page": "Analytics", "canView": true, "canEdit": true },
+      { "page": "Categories", "canView": true, "canEdit": true },
+      { "page": "Products", "canView": true, "canEdit": true },
+      { "page": "Transactions", "canView": true, "canEdit": true },
+      { "page": "Users", "canView": true, "canEdit": true },
+      { "page": "Roles", "canView": true, "canEdit": true }
+    ]
+  },
+  {
+    "name": "Staff",
+    "permissions": [
+      { "page": "Dashboard", "canView": true, "canEdit": true },
+      { "page": "Analytics", "canView": true, "canEdit": true },
+      { "page": "Categories", "canView": true, "canEdit": true },
+      { "page": "Products", "canView": true, "canEdit": true },
+      { "page": "Transactions", "canView": true, "canEdit": true },
+      { "page": "Users", "canView": false, "canEdit": false },
+      { "page": "Roles", "canView": false, "canEdit": false }
+    ]
+  }
+]

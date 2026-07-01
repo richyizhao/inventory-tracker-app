@@ -1,0 +1,10 @@
+.git
+.vs
+.vscode
+.env
+bin
+obj
+artifacts
+node_modules
+Dockerfile*
+docker-compose*

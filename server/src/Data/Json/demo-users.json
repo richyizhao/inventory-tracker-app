@@ -1,0 +1,23 @@
+[
+  {
+    "displayName": "Keanu Reeves",
+    "username": "kree964",
+    "email": "kree964@inventory.local",
+    "password": "Demo123!",
+    "roleName": "Manager"
+  },
+  {
+    "displayName": "Johnny Depp",
+    "username": "jdep963",
+    "email": "jdep963@inventory.local",
+    "password": "Demo123!",
+    "roleName": "Staff"
+  },
+  {
+    "displayName": "Al Pacino",
+    "username": "apac940",
+    "email": "apac940@inventory.local",
+    "password": "Demo123!",
+    "roleName": "Staff"
+  }
+]

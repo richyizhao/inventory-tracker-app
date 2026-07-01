@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: inventory-tracker-postgres
+    environment:
+      POSTGRES_DB: inventorytrackerdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d inventorytrackerdb"]
+      interval: 10s
+      retries: 10
+      start_period: 10s
+      timeout: 3s 
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: inventory-tracker-server
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: 8080
+      "ConnectionStrings:Default": Host=postgres;Port=5432;Database=inventorytrackerdb;Username=postgres;Password=postgres
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:
